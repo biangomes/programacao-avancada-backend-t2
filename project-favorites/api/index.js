@@ -11,15 +11,31 @@ http.createServer((req, res) => {
         DELETE: http://localhost:3000/?name=linkedin&url=https://www.linkedin.com/&del=1
     */
     const { name, url, del } = URL.parse(req.url, true).query
+
+    function writeFile(cb) {
+        fs.writeFile(
+            path.join(__dirname, 'urls.json'),
+            JSON.stringify(data, null, 2),
+            err => {
+                if (err) throw err
+                res.end('Operação realizada com sucesso!')
+            }
+        )
+    }
     
     if(!name || !url) {
-        return res.end('show')
+        return res.end(JSON.stringify(data,null,2))
     }
     if(del) {
         // TODO implementar metodo DELETE
-        return res.end('delete')
+        data.urls = data.urls.filter(item => item.url != url)
+
+        //return res.end('delete')
+        return writeFile(message => res.end(message))
     }
 
     // TODO implementar o metodo CREATE
-    return res.end('create')
+    data.urls.push({name,url})
+    console.log(data.urls)
+    return writeFile(message => res.end(message))
 }).listen(3000, () => {console.log("API is running")});
