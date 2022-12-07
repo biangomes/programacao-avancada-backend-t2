@@ -12,6 +12,17 @@ http.createServer((req, res) => {
 
     // Desestruturação da query string da URL para obter os valores que estão associados às chaves name, url e del.
     const { name, url, del } = URL.parse(req.url, true).query
+
+    function writeFile(cb) {
+        fs.writeFile(
+            path.join(__dirname, 'urls.json'),
+            JSON.stringify(data, null, 2),
+            err => {
+                if (err) throw err
+                res.end('Operação realizada com sucesso!')
+            }
+        )
+    }
     
     function writeFile(cb) {
         fs.writeFile(
