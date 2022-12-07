@@ -27,8 +27,9 @@ http.createServer((req, res) => {
         return res.end(JSON.stringify(data,null,2))
     }
     if(del) {
-        // TODO implementar metodo DELETE
-        data.urls = data.urls.filter(item => item.url != url)
+        // TODO implementar validacao de nome e url
+        data.urls = data.urls.filter(item => (item.name != name && item.url!=url))
+        
 
         //return res.end('delete')
         return writeFile(message => res.end(message))
@@ -38,4 +39,5 @@ http.createServer((req, res) => {
     data.urls.push({name,url})
     console.log(data.urls)
     return writeFile(message => res.end(message))
+
 }).listen(3000, () => {console.log("API is running")});
