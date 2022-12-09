@@ -23,6 +23,10 @@ http.createServer((req, res) => {
             }
         )
     }
+
+    res.writeHead(200, {
+        'Access-Control-Allow-Origin': '*'
+    })
     
     function writeFile(cb) {
         fs.writeFile(
